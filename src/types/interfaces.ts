@@ -51,6 +51,7 @@ export namespace HotDog {
       waterLevel: number;
       stomachLevel: number;
       money: number;
+      hotdogStash: number;
     };
     upgrades: {
       [key in Game.UpgradeId]: number;

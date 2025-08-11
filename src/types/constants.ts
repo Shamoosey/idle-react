@@ -60,7 +60,8 @@ export const DEFAULT_STATE: HotDog.State = {
   current: {
     waterLevel: 0,
     stomachLevel: 0,
-    money: 0,
+    money: 500,
+    hotdogStash: 0,
   },
   upgrades: {
     [HotDog.Game.UpgradeId.BIGGER_BITE]: 0,

@@ -5,6 +5,8 @@ export function saveGameScore(state: HotDog.State): void {
   localStorage.setItem(HOTDOG.STATE, JSON.stringify(state));
 }
 
+// TODO
+// fix the saving logic so its not overriding on interface changes
 export function loadGameScore(): HotDog.State {
   try {
     const save = localStorage.getItem(HOTDOG.STATE);

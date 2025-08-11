@@ -1,5 +1,5 @@
 import { HotDog } from "../../types/interfaces";
-import { Button } from "../Button";
+import { Button } from "../UI/Button";
 import HotdogShopDisplay from "./ShopDisplay";
 
 export interface HotdogShopProps {
@@ -8,17 +8,13 @@ export interface HotdogShopProps {
 
 function HotdogShop({ state }: HotdogShopProps) {
   return (
-    <div className="w-[400px]">
-      <div className="flex mb-4">
+    <div className="min-w-[300px]">
+      <div className="flex mb-4 justify-between">
         <h1 className="text-4xl">Shop</h1>
       </div>
       <HotdogShopDisplay />
-      <div className="flex space-around">
-        <Button variant="yellow" className="mr-2">
-          Add to Cart
-        </Button>
-        <Button variant="green">Check Out</Button>
-      </div>
+      <Button variant="green">Purchase Items</Button>
+      <div className="flex space-around"></div>
     </div>
   );
 }

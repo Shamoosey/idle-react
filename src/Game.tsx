@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DEFAULT_STATE } from "./types/constants";
 import { HotDog } from "./types/interfaces";
 import Scoreboard from "./components/Scoreboard";
-import { Button } from "./components/Button";
+import { Button } from "./components/UI/Button";
 import { loadGameScore, saveGameScore } from "./utils/localStorage";
 import { drinkWater, eatHotdog } from "./utils/scoreHelper";
 import HotdogShop from "./components/HotdogShop/Shop";
@@ -27,22 +27,13 @@ export default function Game() {
 
     const interval = setInterval(() => {
       setGameState((prevState) => {
-        if (
-          prevState.current.stomachLevel > 0 &&
-          prevState.current.waterLevel >= prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]
-        ) {
+        if (prevState.current.stomachLevel > 0 && prevState.current.waterLevel >= prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]) {
           return {
             ...prevState,
             current: {
               ...prevState.current,
-              waterLevel: Math.max(
-                0,
-                prevState.current.waterLevel - prevState.capabilities[HotDog.Game.CapabilityId.WATER_DRAIN]
-              ),
-              stomachLevel: Math.max(
-                0,
-                prevState.current.stomachLevel - prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]
-              ),
+              waterLevel: Math.max(0, prevState.current.waterLevel - prevState.capabilities[HotDog.Game.CapabilityId.WATER_DRAIN]),
+              stomachLevel: Math.max(0, prevState.current.stomachLevel - prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]),
             },
           };
         }
@@ -72,7 +63,9 @@ export default function Game() {
       <div className="mx-4">
         <Scoreboard state={gameState} />
         <div className="my-4 flex gap-2">
-          <Button onClick={onEatHotdog} disabled={!isEatHotdogButtonEnabled()}>
+          <Button
+            onClick={onEatHotdog}
+            disabled={!isEatHotdogButtonEnabled()}>
             Eat Hotdog
           </Button>
           <Button onClick={onDrinkWater}>Drink Water</Button>

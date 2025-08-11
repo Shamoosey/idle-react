@@ -1,5 +1,5 @@
 import { HotDog } from "../types/interfaces";
-import { ProgressBar } from "./ProgressBar";
+import { ProgressBar } from "./UI/ProgressBar";
 
 export interface ScoreboardProps {
   state: HotDog.State;
@@ -29,7 +29,11 @@ function Scoreboard({ state }: ScoreboardProps) {
             {state.current.stomachLevel} / {state.capabilities.stomachCapacity}
           </div>
         </div>
-        <ProgressBar color="bg-emerald-500" val={state.current.stomachLevel} max={state.capabilities.stomachCapacity} />
+        <ProgressBar
+          color="bg-emerald-500"
+          val={state.current.stomachLevel}
+          max={state.capabilities.stomachCapacity}
+        />
       </div>
       <div className="flex flex-col">
         <div className="flex justify-between">
@@ -38,7 +42,11 @@ function Scoreboard({ state }: ScoreboardProps) {
             {state.current.waterLevel} / {state.capabilities.waterCapacity}
           </div>
         </div>
-        <ProgressBar color="bg-sky-500" val={state.current.waterLevel} max={state.capabilities.waterCapacity} />
+        <ProgressBar
+          color="bg-sky-500"
+          val={state.current.waterLevel}
+          max={state.capabilities.waterCapacity}
+        />
       </div>
     </div>
   );

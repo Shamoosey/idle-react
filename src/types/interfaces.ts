@@ -60,4 +60,9 @@ export namespace HotDog {
       [key in Game.CapabilityId]: number;
     };
   }
+
+  export interface ShoppingCart {
+    itemId: Game.UpgradeId;
+    count: number;
+  }
 }

@@ -5,6 +5,7 @@ import Scoreboard from "./components/Scoreboard/Scoreboard";
 import { loadGameScore, saveGameScore } from "./utils/localStorage";
 import { drinkWater, eatHotdog, purchaseUpgrade } from "./utils/scoreHelper";
 import HotdogShop from "./components/HotdogShop/HotdogShop";
+import { Button } from "./components/UI/Button";
 
 export default function Game() {
   const config = DEFAULT_CONFIG;
@@ -26,6 +27,7 @@ export default function Game() {
 
   useEffect(() => {
     checkForUnlocks();
+    console.log("changes");
   }, [gameState.stats]);
 
   useEffect(() => {
@@ -42,14 +44,8 @@ export default function Game() {
             ...prevState,
             current: {
               ...prevState.current,
-              waterLevel: Math.max(
-                0,
-                prevState.current.waterLevel - prevState.capabilities[HotDog.Game.CapabilityId.WATER_DRAIN]
-              ),
-              stomachLevel: Math.max(
-                0,
-                prevState.current.stomachLevel - prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]
-              ),
+              waterLevel: Math.max(0, prevState.current.waterLevel - prevState.capabilities[HotDog.Game.CapabilityId.WATER_DRAIN]),
+              stomachLevel: Math.max(0, prevState.current.stomachLevel - prevState.capabilities[HotDog.Game.CapabilityId.DIGESTIVE_SPEED]),
             },
           };
         }
@@ -74,6 +70,7 @@ export default function Game() {
         } else {
           newItems.push(item);
         }
+        console.log(newItems);
       }
       if (newItems.length > 0) {
         //if we have an item, unlock the shop
@@ -122,18 +119,30 @@ export default function Game() {
     }
   };
 
+  //temp for dev
+  const onResetGameState = () => {
+    setGameState(DEFAULT_STATE);
+  };
+
   return (
-    <div className="px-4 py-4 md:py-4 flex flex-col md:flex-row gap-4 md:gap-0 md:justify-between w-full">
-      <Scoreboard state={gameState} onDrinkWater={onDrinkWater} onEatHotdog={onEatHotdog} />
-      <HotdogShop
-        state={gameState}
-        cartItems={cartItems}
-        shopItems={shopItems}
-        onPurchaseItems={onPurchaseShopItems}
-        onClearShoppingCart={onClearCart}
-        onRemoveFromShoppingCart={onRemoveFromCart}
-        onAddToShoppingCart={onAddToShoppingCart}
-      />
+    <div className="p-4 w-full">
+      <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
+        <Scoreboard
+          state={gameState}
+          onDrinkWater={onDrinkWater}
+          onEatHotdog={onEatHotdog}
+        />
+        <HotdogShop
+          state={gameState}
+          cartItems={cartItems}
+          shopItems={shopItems}
+          onPurchaseItems={onPurchaseShopItems}
+          onClearShoppingCart={onClearCart}
+          onRemoveFromShoppingCart={onRemoveFromCart}
+          onAddToShoppingCart={onAddToShoppingCart}
+        />
+      </div>
+      <Button onClick={() => onResetGameState()}>Reset Game State</Button>
     </div>
   );
 }

@@ -28,16 +28,15 @@ function HotdogShopDisplay({
 
   //todo: add better shop items with descriptions / tooltips for each
   return (
-    <div
-      className={
-        (state.current.shopUnlocked ? "block" : "hidden") + " min-w-[300px] min-h[300px] border-4 p-4 rounded-lg"
-      }>
+    <div className={(state.current.shopUnlocked ? "block" : "hidden") + " min-w-[300px] min-h[300px] border-4 p-4 rounded-lg"}>
       <div className="flex mb-4 justify-between">
         <h1 className="text-4xl">Shop</h1>
       </div>
       <div className="flex flex-col justify-between">
         {shopItems.map((x) => (
-          <div className="flex py-2" key={x.id}>
+          <div
+            className="flex py-2"
+            key={x.id}>
             <div className="flex items-center">
               <div className="min-w-30">{x.name}</div>
               <div className="min-w-25">${x.cost}</div>
@@ -45,10 +44,16 @@ function HotdogShopDisplay({
             <div className="flex min-w-10 justify-between items-center">
               <span className="min-w-5">{getShoppingCartCount(x.id)}</span>
               <div className="flex gap-1">
-                <Button variant="icon" className="cursor-pointer" onClick={() => onAddToShoppingCart(x.id)}>
+                <Button
+                  variant="icon"
+                  className="cursor-pointer"
+                  onClick={() => onAddToShoppingCart(x.id)}>
                   <CirclePlus />
                 </Button>
-                <Button variant="icon" className="cursor-pointer" onClick={() => onRemoveFromShoppingCart(x.id)}>
+                <Button
+                  variant="icon"
+                  className="cursor-pointer"
+                  onClick={() => onRemoveFromShoppingCart(x.id)}>
                   <CircleMinus />
                 </Button>
               </div>
@@ -56,10 +61,14 @@ function HotdogShopDisplay({
           </div>
         ))}
         <div className="mt-1 flex justify-around">
-          <Button variant="green" onClick={() => onPurchaseItems()}>
+          <Button
+            variant="green"
+            onClick={() => onPurchaseItems()}>
             Purchase Items
           </Button>
-          <Button variant="red" onClick={onClearShoppingCart}>
+          <Button
+            variant="red"
+            onClick={onClearShoppingCart}>
             Clear Cart
           </Button>
         </div>

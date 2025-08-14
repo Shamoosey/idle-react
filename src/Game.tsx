@@ -71,6 +71,8 @@ export default function Game() {
           if (item.requirement && gameState.stats[item.requirement.stat] >= item.requirement.amount) {
             newItems.push(item);
           }
+        } else {
+          newItems.push(item);
         }
       }
       if (newItems.length > 0) {

@@ -1,8 +1,9 @@
-import { BASE_CAPABILITIES, DEFAULT_CONFIG } from "../types/constants";
+import { DEFAULT_CONFIG } from "../types/constants";
 import { HotDog } from "../types/interfaces";
 
 export function eatHotdog(oldState: HotDog.State): HotDog.State {
   const state = { ...oldState };
+  //todo: add logic to check hotdog stash before eating
   if (state.current.stomachLevel < state.capabilities.stomachCapacity) {
     state.stats[HotDog.Game.StatId.HOTDOGS_EATEN] += state.capabilities.hotdogPower;
     state.current.stomachLevel += state.capabilities.hotdogPower;
@@ -13,26 +14,18 @@ export function drinkWater(oldState: HotDog.State): HotDog.State {
   const state = { ...oldState };
 
   if (state.current.waterLevel < state.capabilities.waterCapacity) {
+    state.stats[HotDog.Game.StatId.WATER_DRUNK] += state.capabilities.waterPower;
     state.current.waterLevel += state.capabilities.waterPower;
   }
 
   return state;
 }
 
-export function calculateCapabilities(upgrades: HotDog.State["upgrades"], config: HotDog.Game.Config = DEFAULT_CONFIG): HotDog.State["capabilities"] {
-  const capabilities = { ...BASE_CAPABILITIES };
-
-  config.upgrades.forEach((upgradeDef) => {
-    const purchaseCount = upgrades[upgradeDef.id];
-    if (purchaseCount > 0) {
-      capabilities[upgradeDef.effect.capability] += upgradeDef.effect.increase * purchaseCount;
-    }
-  });
-
-  return capabilities;
-}
-
-export function canPurchaseUpgrade(upgradeId: HotDog.Game.UpgradeId, state: HotDog.State, config: HotDog.Game.Config = DEFAULT_CONFIG): boolean {
+export function canPurchaseUpgrade(
+  upgradeId: HotDog.Game.UpgradeId,
+  state: HotDog.State,
+  config: HotDog.Game.Config = DEFAULT_CONFIG
+): boolean {
   const upgrade = config.upgrades.find((u) => u.id === upgradeId);
   if (!upgrade) return false;
 
@@ -45,4 +38,33 @@ export function canPurchaseUpgrade(upgradeId: HotDog.Game.UpgradeId, state: HotD
   }
 
   return true;
+}
+
+export function purchaseUpgrade(
+  upgradeId: HotDog.Game.UpgradeId,
+  state: HotDog.State,
+  config: HotDog.Game.Config = DEFAULT_CONFIG
+): HotDog.State | null {
+  if (!canPurchaseUpgrade(upgradeId, state, config)) {
+    return null;
+  }
+
+  const upgrade = config.upgrades.find((u) => u.id === upgradeId);
+  if (!upgrade) return null;
+
+  return {
+    ...state,
+    current: {
+      ...state.current,
+      money: state.current.money - upgrade.cost,
+    },
+    upgrades: {
+      ...state.upgrades,
+      [upgradeId]: state.upgrades[upgradeId] + 1,
+    },
+    capabilities: {
+      ...state.capabilities,
+      [upgrade.effect.capability]: state.capabilities[upgrade.effect.capability] + upgrade.effect.increase,
+    },
+  };
 }

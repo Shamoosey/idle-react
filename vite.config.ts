@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: process.env.NODE_ENV === "production" ? "/react-sandbox/" : "/",
+  base: process.env.NODE_ENV === "production" ? "/idle-react/" : "/",
   build: {
     outDir: "dist",
     assetsDir: "assets",

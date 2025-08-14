@@ -19,12 +19,14 @@ export default function Game() {
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
 
-    checkForUnlocks();
-
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [gameState]);
+
+  useEffect(() => {
+    checkForUnlocks();
+  }, [gameState.stats]);
 
   useEffect(() => {
     const initialState = loadGameScore();

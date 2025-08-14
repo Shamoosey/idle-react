@@ -4,4 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: process.env.NODE_ENV === "production" ? "/react-sandbox/" : "/",
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+  },
 });
